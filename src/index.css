@@ -1,3 +1,5 @@
+/* @import "tailwindcss"; */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -50,6 +52,7 @@ h1 {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
+  color: #fff;
   transition: border-color 0.25s;
 }
 .v__button:hover {
