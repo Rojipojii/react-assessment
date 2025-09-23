@@ -1,11 +1,17 @@
-const Child = () => {
+import { useState } from "react";
+const Child = ({ count, setCount }) => {
+
+
   const handleMinusClick = () => {
-    /* Implement logic here */
+    setCount(count - 1);
   };
 
   const handlePlusClick = () => {
-    /* Implement logic here */
+    setCount(count + 1);
+    console.log(count);
   };
+
+ 
 
   return (
     <div>
