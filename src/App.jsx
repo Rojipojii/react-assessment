@@ -1,26 +1,47 @@
+import { useEffect, useState } from "react";
 import "./App.css";
-import { Album, Photo } from "./components";
+import { Album } from "./components/Album";
+import { Photo } from "./components/Photo";
+// import axios from "axios";
 
-const DUMMY_DATA = [
-  {
-    albumId: 1,
-    id: 1,
-    title: "accusamus beatae ad facilis cum similique qui sunt",
-    url: "https://via.placeholder.com/600/92c952",
-    thumbnailUrl: "https://via.placeholder.com/150/92c952",
-  },
-  {
-    albumId: 1,
-    id: 2,
-    title: "reprehenderit est deserunt velit ipsam",
-    url: "https://via.placeholder.com/600/771796",
-    thumbnailUrl: "https://via.placeholder.com/150/771796",
-  },
-];
+// const DUMMY_DATA = [
+//   {
+//     albumId: 1,
+//     id: 1,
+//     title: "accusamus beatae ad facilis cum similique qui sunt",
+//     url: "https://via.placeholder.com/600/92c952",
+//     thumbnailUrl: "https://via.placeholder.com/150/92c952",
+//   },
+//   {
+//     albumId: 1,
+//     id: 2,
+//     title: "reprehenderit est deserunt velit ipsam",
+//     url: "https://via.placeholder.com/600/771796",
+//     thumbnailUrl: "https://via.placeholder.com/150/771796",
+//   },
+// ];
 
-function App() {
+const App = () => {
   // you can make use of the following to get the base url
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   console.log(import.meta.env.VITE_BASE_URL);
+
+  const [albums, setAlbums] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  const [selectedAlbumId, setSelectedAlbumId] = useState(null);
+  useEffect(() => {
+    fetch(`${BASE_URL}/albums`)
+      .then((res) => res.json())
+      .then((data) => setAlbums(data));
+  }, [BASE_URL]);
+
+  useEffect(() => {
+    if (selectedAlbumId) {
+      fetch(`${BASE_URL}/albums/${selectedAlbumId}/photos`)
+        .then((res) => res.json())
+        .then((data) => setPhotos(data));
+    }
+  }, [selectedAlbumId, BASE_URL]);
 
   return (
     <div className="container">
@@ -30,8 +51,15 @@ function App() {
 
           <div className="flex flex-col gap-2 h-screen overflow-y-auto pr-2">
             {/* Get Album data from https://jsonplaceholder.typicode.com/albums */}
-            <Album />
-            <Album />
+            {/* <Album />
+            <Album /> */}
+            {albums.map((album) => (
+              <Album
+                key={album.id}
+                title={album.title}
+                onClick={() => setSelectedAlbumId(album.id)}
+              />
+            ))}
           </div>
         </div>
         <div className="flex-1">
@@ -43,13 +71,13 @@ function App() {
               Click on an album to start viewing photos.
             </p>
 
-            {DUMMY_DATA.map((photo, index) => (
-              <Photo {...photo} key={index} />
+            {photos.map((photo) => (
+              <Photo key={photo.id} {...photo} />
             ))}
 
-            {!DUMMY_DATA.length && (
+            {/* {!DUMMY_DATA.length && (
               <p className="col-span-4">No photos found in this album</p>
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -59,6 +87,6 @@ function App() {
       </div> */}
     </div>
   );
-}
+};
 
 export default App;

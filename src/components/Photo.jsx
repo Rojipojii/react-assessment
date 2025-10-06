@@ -1,10 +1,11 @@
 import classes from "./Photo.module.css";
 
-export const Photo = ({ title, url }) => {
+export const Photo = (props) => {
+  console.log(props);
   return (
     <div className={classes.container}>
-      <img src={url} className={classes.image} alt="Vite logo" />
-      <p className={classes.caption}>{title}</p>
+      <img src={props.thumbnailUrl} className={classes.image} alt={props.title} />
+      <p className={classes.caption}>{props.title}</p>
     </div>
   );
 };
