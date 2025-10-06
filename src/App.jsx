@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { ShoppingListItem } from "./components/ShoppingListItem";
 
 function App() {
   const [items, setItems] = useState([]);
+  console.log(items);
   const [newItem, setNewItem] = useState("");
   const [error, setError] = useState("");
 
@@ -26,6 +27,7 @@ function App() {
   function removeItem(index) {
     setItems((prevItems) => prevItems.filter((_, i) => i !== index));
   }
+  
   function toggleItem(index) {
     setItems((prevItems) =>
       prevItems.map((item, i) =>
@@ -33,6 +35,7 @@ function App() {
       )
     );
   }
+
   return (
     <div className="container">
       <h1 className="mb-4">My Shopping List</h1>
@@ -64,6 +67,11 @@ function App() {
             onRemove={() => removeItem(index)}
           />
         ))}
+      </div>
+      <div>
+        <p>
+          Checked: {items.filter((item) => item.checked).length}/{items.length}
+        </p>
       </div>
     </div>
   );

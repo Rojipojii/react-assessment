@@ -17,6 +17,7 @@ export const ShoppingListItem = ({ name, checked, onToggle, onRemove }) => {
       <button onClick={onRemove} className={classes.removeButton}>
         x
       </button>
+      <p></p>
     </div>
   );
 };
